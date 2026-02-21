@@ -8,7 +8,7 @@
         :root { --pink: #ffb7ce; --blue: #bfe6ff; --mint: #baffc9; --purple: #e0b0ff; --text: #5a4a42; }
         body { font-family: 'Segoe UI', sans-serif; background: #fdf5f7; color: var(--text); margin: 0; padding: 15px; }
         header { text-align: center; }
-        .tabs { display: flex; overflow-x: auto; gap: 10px; padding: 10px 0; margin-bottom: 20px; scrollbar-width: none; }
+        .tabs { display: flex; overflow-x: auto; gap: 10px; padding: 10px 0; margin-bottom: 20px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .tab-btn { white-space: nowrap; padding: 10px 18px; border-radius: 20px; border: 2px solid var(--pink); background: white; cursor: pointer; font-weight: bold; transition: 0.3s; }
         .tab-btn.active { background: var(--pink); color: white; }
         .view { display: none; max-width: 800px; margin: 0 auto; }
@@ -17,7 +17,7 @@
         .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid var(--pink); }
         .tag { display: block; background: var(--blue); padding: 8px; border-radius: 10px; font-size: 0.85rem; margin-top: 8px; line-height: 1.4; }
         .timer { background: var(--mint); padding: 10px; border-radius: 15px; text-align: center; font-weight: bold; margin-bottom: 20px; }
-        .suggest-btn { display: block; width: 100%; padding: 20px; background: var(--purple); color: white; border: none; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; }
+        .suggest-btn { display: block; width: 100%; padding: 20px; background: var(--purple); color: white; border: none; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -34,7 +34,7 @@
     </div>
 </header>
 
-<input type="text" id="masterSearch" class="search-bar" placeholder="Search...">
+<input type="text" id="masterSearch" class="search-bar" placeholder="Search anything...">
 
 <div id="friends" class="view active"></div>
 <div id="crafting" class="view"></div>
@@ -43,30 +43,52 @@
 
 <div id="suggest" class="view">
     <div class="card">
-        <h3>Got a suggestion?</h3>
-        <p>Help me make the Island Master guide better! Click the button below to send me your ideas, new recipes, or visitor tips.</p>
-        <a href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" class="suggest-btn">Submit a Suggestion ✉️</a>
+        <h3>Got a suggestion? 🎀</h3>
+        <p>Help me make the Island Master guide better! Send me new recipes, fish locations, or tips.</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeWL6CQutLbERtyHy9kAraW22gN1hmtOexuXke9dU1bJtV7sg/viewform?usp=header" target="_blank" class="suggest-btn">Submit a Suggestion ✉️</a>
     </div>
 </div>
 
 <script>
     const db = {
         friends: [
-            { n: "Hello Kitty", g: "3⭐: Mama's Apple Pie", a: "✨ 10% Friendship Bonus & Cooking Helper", l: "Resort Plaza" },
-            { n: "My Melody", g: "3⭐: Pink Latte", a: "✨ Extra Crafting Rewards", l: "Resort Shop" },
-            { n: "Badtz-Maru", g: "3⭐: Ultimate Joke Pizza", a: "✨ Catch Fish faster", l: "Resort Pier" }
+            { n: "Hello Kitty", g: "3⭐: Mama's Apple Pie | 2⭐: Apple Pie", a: "✨ 10% Friendship Bonus & Cooking Helper", l: "Resort Plaza" },
+            { n: "My Melody", g: "3⭐: Pink Latte | 2⭐: Strawberry", a: "✨ Extra Crafting Rewards", l: "Resort Shop" },
+            { n: "Badtz-Maru", g: "3⭐: Ultimate Joke Pizza", a: "✨ Catch Fish faster", l: "Resort Pier" },
+            { n: "Keroppi", g: "3⭐: Critter Totem", a: "✨ Critters stay still longer", l: "Spooky Swamp" },
+            { n: "Pompompurin", g: "3⭐: Mama's Pudding", a: "✨ High Jump & Stamina", l: "Oasis" },
+            { n: "Chococat", g: "3⭐: Ancient Invention", a: "✨ Craft multiple items at once", l: "Tent" },
+            { n: "Kuromi", g: "3⭐: Pumpkin Spice Soda", a: "✨ Balloon Flight speed up", l: "Spooky Swamp" },
+            { n: "Pekkle", g: "3⭐: Mountain Soundtrack", a: "✨ Walk/Run speed up", l: "Gemstone Mountain" },
+            { n: "Hangyodon", g: "3⭐: Sayuri (Fish)", a: "✨ Better luck with rare items", l: "Comedy Club" },
+            { n: "Tuxedosam", g: "3⭐: Designer Island Doll", a: "✨ Get more shop rewards", l: "Clothing Shop" }
         ],
         crafting: [
             { n: "Dough", i: "Flour + Candy Cloud", s: "Crafting Table" },
-            { n: "Mechanism", i: "3x Spare Parts", s: "Crafting Table" }
+            { n: "Mechanism", i: "3x Spare Parts", s: "Crafting Table" },
+            { n: "Mama's Apple Pie", i: "Flour + Apple + Cinnamon", s: "Oven" },
+            { n: "Pink Latte", i: "Candlenut + Strawberry", s: "Espresso Machine" },
+            { n: "Ultimate Joke Pizza", i: "Dough + Pineapple + Tofu", s: "Pizza Oven" },
+            { n: "Pumpkin Spice Soda", i: "Fizzy Crystal + Pumpkin + Cinnamon", s: "Soda Machine" },
+            { n: "Bejeweled Avocado", i: "Avocado + Star Fruit", s: "Dessert Maker" },
+            { n: "Invention Chip", i: "Mechanism + Glitch", s: "Chococat's Table" }
         ],
         fishing: [
             { n: "Tiny Glowfish", l: "Spooky Swamp (Night)", u: "Donation Drive" },
-            { n: "Diamondhead", l: "Gemstone Mountain (Oasis)", u: "Rare Collection" }
+            { n: "Diamondhead", l: "Gemstone Mountain (Oasis)", u: "Rare Collection" },
+            { n: "Rainbow Ribbitter", l: "Resort (Ponds)", u: "Critter Collection" },
+            { n: "Bush Cricket", l: "Spooky Swamp (Near bushes)", u: "Keroppi Quest" },
+            { n: "Sailing Charmfish", l: "Deep Sea (Sunken Ship)", u: "Rare Collection" },
+            { n: "Scuttlebug", l: "Mount Hothead", u: "Donation Drive" }
         ],
         visitors: [
             { n: "Dear Daniel", r: "3 Furniture Items", c: "Resort" },
-            { n: "Baku", r: "Spooky Furniture + 5 Fall Items", c: "Spooky Swamp" }
+            { n: "Mimmy", r: "5 Hello Kitty Items", c: "Resort" },
+            { n: "Baku", r: "Spooky Furniture + 5 Fall Items", c: "Spooky Swamp" },
+            { n: "Sugar", r: "7 Pink/Sweet Items", c: "Oasis" },
+            { n: "Spice", r: "7 Autumn/Spicy Items", c: "Oasis" },
+            { n: "Mama", r: "Flower items + Fruit items", c: "Resort" },
+            { n: "Papa", r: "Book items + Music items", c: "Resort" }
         ]
     };
 
@@ -74,13 +96,10 @@
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        
         const btns = document.querySelectorAll('.tab-btn');
         btns.forEach(btn => {
             if(btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
         });
-        
-        // Hide search bar on suggest tab
         document.getElementById('masterSearch').style.display = (id === 'suggest') ? 'none' : 'block';
         render();
     }
@@ -89,12 +108,11 @@
         const query = document.getElementById('masterSearch').value.toLowerCase();
         const activeView = document.querySelector('.view.active').id;
         if(activeView === 'suggest') return;
-
         const container = document.getElementById(activeView);
         container.innerHTML = "";
 
         db[activeView].forEach(item => {
-            const searchableText = (item.n + (item.g || "") + (item.l || "") + (item.u || "") + (item.a || "")).toLowerCase();
+            const searchableText = (item.n + (item.g || "") + (item.l || "") + (item.u || "") + (item.a || "") + (item.i || "")).toLowerCase();
             if (searchableText.includes(query)) {
                 let html = `<div class="card"><strong>${item.n}</strong><br>`;
                 if(activeView === 'friends') {
