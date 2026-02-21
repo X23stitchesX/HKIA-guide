@@ -34,7 +34,7 @@
     </div>
 </header>
 
-<input type="text" id="masterSearch" class="search-bar" placeholder="Search anything...">
+<input type="text" id="masterSearch" class="search-bar" placeholder="Search for characters, gifts, or abilities...">
 
 <div id="friends" class="view active"></div>
 <div id="crafting" class="view"></div>
@@ -44,7 +44,7 @@
 <div id="suggest" class="view">
     <div class="card">
         <h3>Got a suggestion? 🎀</h3>
-        <p>Help me make the Island Master guide better! Send me new recipes, fish locations, or tips.</p>
+        <p>Notice a missing character or recipe? Click below to let me know!</p>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSeWL6CQutLbERtyHy9kAraW22gN1hmtOexuXke9dU1bJtV7sg/viewform?usp=header" target="_blank" class="suggest-btn">Submit a Suggestion ✉️</a>
     </div>
 </div>
@@ -52,41 +52,41 @@
 <script>
     const db = {
         friends: [
-            { n: "Hello Kitty", g: "3⭐: Mama's Apple Pie | 2⭐: Apple Pie", a: "✨ 10% Friendship Bonus & Cooking Helper", l: "Resort Plaza" },
-            { n: "My Melody", g: "3⭐: Pink Latte | 2⭐: Strawberry", a: "✨ Extra Crafting Rewards", l: "Resort Shop" },
+            { n: "Hello Kitty", g: "3⭐: Mama's Apple Pie", a: "✨ 10% Friendship Bonus & Cooking Helper", l: "Resort Plaza" },
+            { n: "Cinnamoroll", g: "3⭐: Chocolate Chai", a: "✨ Fast Travel / Map Shortcuts", l: "Everywhere" },
+            { n: "My Melody", g: "3⭐: Pink Latte", a: "✨ Extra Crafting Rewards", l: "Resort Shop" },
             { n: "Badtz-Maru", g: "3⭐: Ultimate Joke Pizza", a: "✨ Catch Fish faster", l: "Resort Pier" },
             { n: "Keroppi", g: "3⭐: Critter Totem", a: "✨ Critters stay still longer", l: "Spooky Swamp" },
             { n: "Pompompurin", g: "3⭐: Mama's Pudding", a: "✨ High Jump & Stamina", l: "Oasis" },
             { n: "Chococat", g: "3⭐: Ancient Invention", a: "✨ Craft multiple items at once", l: "Tent" },
             { n: "Kuromi", g: "3⭐: Pumpkin Spice Soda", a: "✨ Balloon Flight speed up", l: "Spooky Swamp" },
             { n: "Pekkle", g: "3⭐: Mountain Soundtrack", a: "✨ Walk/Run speed up", l: "Gemstone Mountain" },
-            { n: "Hangyodon", g: "3⭐: Sayuri (Fish)", a: "✨ Better luck with rare items", l: "Comedy Club" },
-            { n: "Tuxedosam", g: "3⭐: Designer Island Doll", a: "✨ Get more shop rewards", l: "Clothing Shop" }
+            { n: "Retsuko", g: "3⭐: Volcanic Soundtrack", a: "✨ Breaking Rocks/Mining helper", l: "Mount Hothead" },
+            { n: "Tuxedosam", g: "3⭐: Designer Island Doll", a: "✨ Get more shop rewards", l: "Clothing Shop" },
+            { n: "Hangyodon", g: "3⭐: Sayuri (Fish)", a: "✨ Better luck with rare items", l: "Comedy Club" }
         ],
         crafting: [
             { n: "Dough", i: "Flour + Candy Cloud", s: "Crafting Table" },
             { n: "Mechanism", i: "3x Spare Parts", s: "Crafting Table" },
+            { n: "Chocolate Chai", i: "Candlenut + Chocolate Coin + Cinnamon", s: "Espresso Machine" },
             { n: "Mama's Apple Pie", i: "Flour + Apple + Cinnamon", s: "Oven" },
             { n: "Pink Latte", i: "Candlenut + Strawberry", s: "Espresso Machine" },
             { n: "Ultimate Joke Pizza", i: "Dough + Pineapple + Tofu", s: "Pizza Oven" },
             { n: "Pumpkin Spice Soda", i: "Fizzy Crystal + Pumpkin + Cinnamon", s: "Soda Machine" },
-            { n: "Bejeweled Avocado", i: "Avocado + Star Fruit", s: "Dessert Maker" },
             { n: "Invention Chip", i: "Mechanism + Glitch", s: "Chococat's Table" }
         ],
         fishing: [
             { n: "Tiny Glowfish", l: "Spooky Swamp (Night)", u: "Donation Drive" },
             { n: "Diamondhead", l: "Gemstone Mountain (Oasis)", u: "Rare Collection" },
             { n: "Rainbow Ribbitter", l: "Resort (Ponds)", u: "Critter Collection" },
-            { n: "Bush Cricket", l: "Spooky Swamp (Near bushes)", u: "Keroppi Quest" },
-            { n: "Sailing Charmfish", l: "Deep Sea (Sunken Ship)", u: "Rare Collection" },
-            { n: "Scuttlebug", l: "Mount Hothead", u: "Donation Drive" }
+            { n: "Sailing Charmfish", l: "Deep Sea (Sunken Ship)", u: "Rare Collection" }
         ],
         visitors: [
             { n: "Dear Daniel", r: "3 Furniture Items", c: "Resort" },
             { n: "Mimmy", r: "5 Hello Kitty Items", c: "Resort" },
             { n: "Baku", r: "Spooky Furniture + 5 Fall Items", c: "Spooky Swamp" },
-            { n: "Sugar", r: "7 Pink/Sweet Items", c: "Oasis" },
-            { n: "Spice", r: "7 Autumn/Spicy Items", c: "Oasis" },
+            { n: "Mocha", r: "Coffee items + Dessert items", c: "Resort" },
+            { n: "Chiffon", r: "Sporty items + Nature items", c: "Resort" },
             { n: "Mama", r: "Flower items + Fruit items", c: "Resort" },
             { n: "Papa", r: "Book items + Music items", c: "Resort" }
         ]
