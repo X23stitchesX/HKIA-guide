@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKIA Ultimate Companion</title>
+    <style>
+        :root { --pink: #ffb7ce; --blue: #bfe6ff; --mint: #baffc9; --purple: #e0b0ff; --text: #5a4a42; }
+        body { font-family: 'Segoe UI', sans-serif; background: #fdf5f7; color: var(--text); margin: 0; padding: 15px; }
+        header { text-align: center; }
+        .tabs { display: flex; overflow-x: auto; gap: 10px; padding: 10px 0; margin-bottom: 20px; scrollbar-width: none; }
+        .tab-btn { white-space: nowrap; padding: 10px 18px; border-radius: 20px; border: 2px solid var(--pink); background: white; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { background: var(--pink); color: white; }
+        .view { display: none; max-width: 800px; margin: 0 auto; }
+        .view.active { display: block; }
+        .search-bar { width: 100%; padding: 12px; border-radius: 25px; border: 2px solid var(--pink); margin-bottom: 20px; box-sizing: border-box; outline: none; }
+        .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid var(--pink); }
+        .tag { display: inline-block; background: var(--blue); padding: 4px 10px; border-radius: 10px; font-size: 0.8rem; margin-top: 5px; }
+        .timer { background: var(--mint); padding: 10px; border-radius: 15px; text-align: center; font-weight: bold; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🏝️ Island Master</h1>
+    <div class="timer">⏰ Reset in: <span id="timer">--:--:--</span></div>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('friends')">🎁 Friends</button>
+        <button class="tab-btn" onclick="showTab('crafting')">🛠️ Crafting</button>
+        <button class="tab-btn" onclick="showTab('visitors')">🏠 Visitors</button>
+        <button class="tab-btn" onclick="showTab('resources')">💎 Resources</button>
+    </div>
+</header>
+
+<input type="text" id="masterSearch" class="search-bar" placeholder="Search anything...">
+
+<div id="friends" class="view active"></div>
+<div id="crafting" class="view"></div>
+<div id="visitors" class="view"></div>
+<div id="resources" class="view"></div>
+
+<script>
+    const db = {
+        friends: [
+            { n: "Hello Kitty", g: "Mama's Apple Pie", l: "Resort Plaza" },
+            { n: "Kuromi", g: "Pumpkin Spice Soda", l: "Spooky Swamp" },
+            { n: "Cinnamoroll", g: "Chocolate Chai", l: "Everywhere" },
+            { n: "Pompompurin", g: "Mama's Pudding", l: "Oasis" },
+            { n: "Keroppi", g: "Critter Totem", l: "Spooky Swamp" },
+            { n: "My Melody", g: "Pink Latte", l: "Resort Shop" }
+        ],
+        crafting: [
+            { n: "Pink Latte", i: "Candlenut, Strawberry", s: "Espresso Machine" },
+            { n: "Pumpkin Spice Soda", i: "Fizzy Crystal, Pumpkin", s: "Soda Machine" },
+            { n: "Apple Pie", i: "Flour, Apple", s: "Oven" }
+        ],
+        visitors: [
+            { n: "Dear Daniel", r: "3 Furniture Items", c: "Resort" },
+            { n: "Mimmy", r: "5 Hello Kitty Items", c: "Resort" },
+            { n: "Berry", r: "Bakery Items + Spooky Items", c: "Spooky Swamp" }
+        ],
+        resources: [
+            { n: "Iron Ingot", l: "Mount Hothead (Mining)", u: "Crafting Tools" },
+            { n: "Star Piece", l: "Beaches (Night Time)", u: "Upgrading" },
+            { n: "Rubber", l: "Under trees in Resort", u: "Snorkel" }
+        ]
+    };
+
+    function showTab(id) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        event.currentTarget.classList.add('active');
+        render();
+    }
+
+    function render() {
+        const query = document.getElementById('masterSearch').value.toLowerCase();
+        const activeView = document.querySelector('.view.active').id;
+        const container = document.getElementById(activeView);
+        container.innerHTML = "";
+
+        db[activeView].forEach(item => {
+            if (item.n.toLowerCase().includes(query)) {
+                let html = `<div class="card"><strong>${item.n}</strong><br>`;
+                if(activeView === 'friends') html += `📍 ${item.l} <br> <span class="tag">Best: ${item.g}</span>`;
+                if(activeView === 'crafting') html += `🛠️ ${item.i} <br> <span class="tag">At: ${item.s}</span>`;
+                if(activeView === 'visitors') html += `🏠 Needs: ${item.r} <br> <span class="tag">Area: ${item.c}</span>`;
+                if(activeView === 'resources') html += `📍 ${item.l} <br> <span class="tag">Use: ${item.u}</span>`;
+                html += `</div>`;
+                container.innerHTML += html;
+            }
+        });
+    }
+
+    document.getElementById('masterSearch').addEventListener('input', render);
+    
+    setInterval(() => {
+        const d = new Date();
+        document.getElementById('timer').innerText = `${23-d.getHours()}h ${59-d.getMinutes()}m ${59-d.getSeconds()}s`;
+    }, 1000);
+
+    render();
+</script>
+</body>
+</html>
