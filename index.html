@@ -17,6 +17,7 @@
         .card { background: white; border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid var(--pink); }
         .tag { display: block; background: var(--blue); padding: 8px; border-radius: 10px; font-size: 0.85rem; margin-top: 8px; line-height: 1.4; }
         .timer { background: var(--mint); padding: 10px; border-radius: 15px; text-align: center; font-weight: bold; margin-bottom: 20px; }
+        .suggest-btn { display: block; width: 100%; padding: 20px; background: var(--purple); color: white; border: none; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; }
     </style>
 </head>
 <body>
@@ -27,71 +28,45 @@
     <div class="tabs">
         <button class="tab-btn active" onclick="showTab('friends')">🎁 Friends</button>
         <button class="tab-btn" onclick="showTab('crafting')">🛠️ Crafting</button>
+        <button class="tab-btn" onclick="showTab('fishing')">🎣 Fishing</button>
         <button class="tab-btn" onclick="showTab('visitors')">🏠 Visitors</button>
-        <button class="tab-btn" onclick="showTab('resources')">💎 Resources</button>
+        <button class="tab-btn" onclick="showTab('suggest')">💬 Suggestions</button>
     </div>
 </header>
 
-<input type="text" id="masterSearch" class="search-bar" placeholder="Search items, ingredients, or locations...">
+<input type="text" id="masterSearch" class="search-bar" placeholder="Search...">
 
 <div id="friends" class="view active"></div>
 <div id="crafting" class="view"></div>
+<div id="fishing" class="view"></div>
 <div id="visitors" class="view"></div>
-<div id="resources" class="view"></div>
+
+<div id="suggest" class="view">
+    <div class="card">
+        <h3>Got a suggestion?</h3>
+        <p>Help me make the Island Master guide better! Click the button below to send me your ideas, new recipes, or visitor tips.</p>
+        <a href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" target="_blank" class="suggest-btn">Submit a Suggestion ✉️</a>
+    </div>
+</div>
 
 <script>
     const db = {
         friends: [
-            { n: "Hello Kitty", g: "3⭐: Mama's Apple Pie | 2⭐: Apple Pie | 1⭐: Apple", l: "Resort Plaza" },
-            { n: "My Melody", g: "3⭐: Pink Latte | 2⭐: Strawberry | 1⭐: Candy Cloud", l: "Resort Shop" },
-            { n: "Kuromi", g: "3⭐: Pumpkin Spice Soda | 2⭐: Jack-O-Lantern | 1⭐: Pumpkin", l: "Spooky Swamp" },
-            { n: "Pompompurin", g: "3⭐: Mama's Pudding | 2⭐: Pudding | 1⭐: Milk", l: "Oasis" },
-            { n: "Keroppi", g: "3⭐: Critter Totem | 2⭐: Grassy Salad | 1⭐: Lily Frog", l: "Spooky Swamp" },
-            { n: "Badtz-Maru", g: "3⭐: Ultimate Joke Pizza | 2⭐: Pineapple Pizza | 1⭐: Pizza", l: "Resort Pier" },
-            { n: "Cinnamoroll", g: "3⭐: Chocolate Chai | 2⭐: Hot Cocoa | 1⭐: Coffee", l: "Everywhere" },
-            { n: "Tuxedosam", g: "3⭐: Designer Island Doll | 2⭐: Tropical Item | 1⭐: Fabric", l: "Clothing Shop" },
-            { n: "Hangyodon", g: "3⭐: Sayuri (Fish) | 2⭐: Aquatic Item | 1⭐: Fish", l: "Comedy Club" },
-            { n: "Pekkle", g: "3⭐: Mountain Soundtrack | 2⭐: Music Box | 1⭐: Calcite", l: "Gemstone Mountain" },
-            { n: "Chococat", g: "3⭐: Ancient Invention | 2⭐: Blank Book | 1⭐: Mechanism", l: "Tent (Resort)" },
-            { n: "Retsuko", g: "3⭐: Volcanic Soundtrack | 2⭐: Guitar | 1⭐: Magma Bloom", l: "Mount Hothead" }
+            { n: "Hello Kitty", g: "3⭐: Mama's Apple Pie", a: "✨ 10% Friendship Bonus & Cooking Helper", l: "Resort Plaza" },
+            { n: "My Melody", g: "3⭐: Pink Latte", a: "✨ Extra Crafting Rewards", l: "Resort Shop" },
+            { n: "Badtz-Maru", g: "3⭐: Ultimate Joke Pizza", a: "✨ Catch Fish faster", l: "Resort Pier" }
         ],
         crafting: [
-            { n: "Mama's Apple Pie", i: "Flour + Apple + Cinnamon", s: "Oven" },
-            { n: "Strawberry Shortcake", i: "Flour + Strawberry", s: "Oven" },
-            { n: "Pumpkin Spice Soda", i: "Fizzy Crystal + Pumpkin + Cinnamon", s: "Soda Machine" },
-            { n: "Pink Latte", i: "Candlenut + Strawberry", s: "Espresso Machine" },
-            { n: "Ultimate Joke Pizza", i: "Dough + Pineapple + Tofu", s: "Pizza Oven" },
-            { n: "Mama's Pudding", i: "Cactus Cream + Banana + Candy Cloud", s: "Dessert Maker" },
-            { n: "Bejeweled Avocado", i: "Avocado + Star Fruit", s: "Dessert Maker" },
-            { n: "Spicy Soda", i: "Fizzy Crystal + Magma Bloom", s: "Soda Machine" },
-            { n: "Ghost Cookies", i: "Flour + Swampmallow", s: "Oven" }
+            { n: "Dough", i: "Flour + Candy Cloud", s: "Crafting Table" },
+            { n: "Mechanism", i: "3x Spare Parts", s: "Crafting Table" }
+        ],
+        fishing: [
+            { n: "Tiny Glowfish", l: "Spooky Swamp (Night)", u: "Donation Drive" },
+            { n: "Diamondhead", l: "Gemstone Mountain (Oasis)", u: "Rare Collection" }
         ],
         visitors: [
             { n: "Dear Daniel", r: "3 Furniture Items", c: "Resort" },
-            { n: "Mimmy", r: "5 Hello Kitty Items", c: "Resort" },
-            { n: "Berry", r: "Bakery Items + Spooky Items", c: "Spooky Swamp" },
-            { n: "Cherry", r: "Vegetable Items + Spooky Items", c: "Spooky Swamp" },
-            { n: "Mama", r: "Flower items + Fruit items", c: "Resort" },
-            { n: "Papa", r: "Book items + Music items", c: "Resort" },
-            { n: "Mocha", r: "Coffee items + Dessert items", c: "Resort" },
-            { n: "Chiffon", r: "Sporty items + Nature items", c: "Resort" },
-            { n: "Espresso", r: "Books + Fancy Items", c: "Resort" },
-            { n: "Cappuccino", r: "Coffee + Food Items", c: "Resort" },
             { n: "Baku", r: "Spooky Furniture + 5 Fall Items", c: "Spooky Swamp" }
-        ],
-        resources: [
-            { n: "Iron Ingot", l: "Mount Hothead (Mining)", u: "Crafting Tools/Machines" },
-            { n: "Star Piece", l: "Beaches (Night Time)", u: "Upgrading Friendships" },
-            { n: "Rubber", l: "Ground under Trees", u: "Snorkel Crafting" },
-            { n: "Fizzy Crystal", l: "Gemstone Mines", u: "Soda Machine" },
-            { n: "Magma Bloom", l: "Mount Hothead (Lava area)", u: "Spicy Recipes" },
-            { n: "Snowicle", l: "Icy Peak", u: "Frozen Recipes" },
-            { n: "Cinnabloom", l: "Ruins / Cloud Island", u: "Rare Crafting" },
-            { n: "Sand Dollar", l: "Resort Beaches", u: "Gift Crafting" },
-            { n: "Coral Milk", l: "Underwater (Sea Grass)", u: "Cooking" },
-            { n: "Tofu", l: "Gift from Hello Kitty", u: "Pizza Recipes" },
-            { n: "Spinip", l: "Spooky Swamp", u: "Cooking" },
-            { n: "Cactus Cream", l: "Oasis", u: "Pudding/Ice Cream" }
         ]
     };
 
@@ -99,26 +74,36 @@
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.innerText.toLowerCase().includes(id));
-        if(btn) btn.classList.add('active');
+        
+        const btns = document.querySelectorAll('.tab-btn');
+        btns.forEach(btn => {
+            if(btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
+        });
+        
+        // Hide search bar on suggest tab
+        document.getElementById('masterSearch').style.display = (id === 'suggest') ? 'none' : 'block';
         render();
     }
 
     function render() {
         const query = document.getElementById('masterSearch').value.toLowerCase();
         const activeView = document.querySelector('.view.active').id;
+        if(activeView === 'suggest') return;
+
         const container = document.getElementById(activeView);
         container.innerHTML = "";
 
         db[activeView].forEach(item => {
-            const searchableText = (item.n + (item.g || "") + (item.i || "") + (item.l || "") + (item.r || "") + (item.u || "")).toLowerCase();
-            
+            const searchableText = (item.n + (item.g || "") + (item.l || "") + (item.u || "") + (item.a || "")).toLowerCase();
             if (searchableText.includes(query)) {
                 let html = `<div class="card"><strong>${item.n}</strong><br>`;
-                if(activeView === 'friends') html += `📍 ${item.l} <br> <span class="tag">🎁 ${item.g}</span>`;
+                if(activeView === 'friends') {
+                    html += `📍 ${item.l} <br> <span class="tag">🎁 ${item.g}</span>`;
+                    html += `<span class="tag" style="background:var(--purple)">💪 ${item.a}</span>`;
+                }
                 if(activeView === 'crafting') html += `🛠️ Ingredients: ${item.i} <br> <span class="tag">Station: ${item.s}</span>`;
+                if(activeView === 'fishing') html += `📍 Location: ${item.l} <br> <span class="tag">Usage: ${item.u}</span>`;
                 if(activeView === 'visitors') html += `🏠 Needs: ${item.r} <br> <span class="tag">Area: ${item.c}</span>`;
-                if(activeView === 'resources') html += `📍 Location: ${item.l} <br> <span class="tag">Usage: ${item.u}</span>`;
                 html += `</div>`;
                 container.innerHTML += html;
             }
@@ -126,7 +111,6 @@
     }
 
     document.getElementById('masterSearch').addEventListener('input', render);
-    
     setInterval(() => {
         const d = new Date();
         const h = 23 - d.getUTCHours();
@@ -134,7 +118,6 @@
         const s = 59 - d.getUTCSeconds();
         document.getElementById('timer').innerText = `${h}h ${m}m ${s}s`;
     }, 1000);
-
     render();
 </script>
 </body>
