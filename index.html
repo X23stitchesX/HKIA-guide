@@ -18,7 +18,7 @@
         .tag { display: block; background: var(--blue); padding: 8px; border-radius: 10px; font-size: 0.85rem; margin-top: 8px; line-height: 1.4; }
         .timer { background: var(--mint); padding: 10px; border-radius: 15px; text-align: center; font-weight: bold; margin-bottom: 20px; }
         .dlc-tag { background: var(--purple); color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; position: absolute; top: 10px; right: 10px; }
-        .suggest-btn { display: block; width: 100%; padding: 20px; background: var(--purple); color: white; border: none; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .suggest-btn { display: block; width: 100%; padding: 20px; background: var(--purple); color: white; border: none; border-radius: 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; }
     </style>
 </head>
 <body>
@@ -28,89 +28,52 @@
     <div class="timer">⏰ Next Reset: <span id="timer">--:--:--</span></div>
     <div class="tabs">
         <button class="tab-btn active" onclick="showTab('friends')">🎁 Friends</button>
-        <button class="tab-btn" onclick="showTab('crafting')">🍳 Recipes</button>
+        <button class="tab-btn" onclick="showTab('kitchen')">🍳 Kitchen</button>
+        <button class="tab-btn" onclick="showTab('craftables')">⚒️ Crafting</button>
         <button class="tab-btn" onclick="showTab('materials')">📦 Materials</button>
         <button class="tab-btn" onclick="showTab('nature')">🎣 Nature</button>
         <button class="tab-btn" onclick="showTab('visitors')">🏠 Visitors</button>
-        <button class="tab-btn" onclick="showTab('maps')">📍 Maps/DLC</button>
-        <button class="tab-btn" onclick="showTab('suggest')">💬 Help</button>
+        <button class="tab-btn" onclick="showTab('maps')">📍 Maps</button>
     </div>
 </header>
 
-<input type="text" id="masterSearch" class="search-bar" placeholder="Search anything...">
+<input type="text" id="masterSearch" class="search-bar" placeholder="Search for anything...">
 
 <div id="friends" class="view active"></div>
-<div id="crafting" class="view"></div>
+<div id="kitchen" class="view"></div>
+<div id="craftables" class="view"></div>
 <div id="materials" class="view"></div>
 <div id="nature" class="view"></div>
 <div id="visitors" class="view"></div>
 <div id="maps" class="view"></div>
 
-<div id="suggest" class="view">
-    <div class="card">
-        <h3>Wiki Suggestion Box 🎀</h3>
-        <p>Found a new recipe or character on the Wiki? Send it here so we can add it to the next update!</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeWL6CQutLbERtyHy9kAraW22gN1hmtOexuXke9dU1bJtV7sg/viewform?usp=header" target="_blank" class="suggest-btn">Submit Info ✉️</a>
-    </div>
-</div>
-
 <script>
     const db = {
         friends: [
-            { n: "Hello Kitty", g: "3⭐: Mama's Apple Pie", a: "✨ Cooking & Friendship Boost", l: "Resort Plaza" },
-            { n: "My Melody", g: "3⭐: Pink Latte", a: "✨ Extra Crafting Rewards", l: "Resort Shop" },
-            { n: "Cinnamoroll", g: "3⭐: Chocolate Chai", a: "✨ Fast Travel / Map Access", l: "Everywhere" },
-            { n: "Kuromi", g: "3⭐: Pumpkin Spice Soda", a: "✨ Balloon Flight Speed", l: "Spooky Swamp" },
-            { n: "Badtz-Maru", g: "3⭐: Ultimate Joke Pizza", a: "✨ Fishing Speed", l: "Resort Pier" },
-            { n: "Chococat", g: "3⭐: Ancient Invention", a: "✨ Multi-Crafting", l: "Tent" },
-            { n: "Pompompurin", g: "3⭐: Mama's Pudding", a: "✨ Jump & Stamina", l: "Oasis" },
-            { n: "Keroppi", g: "3⭐: Critter Totem", a: "✨ Critter Catching Aid", l: "Spooky Swamp" },
-            { n: "Pekkle", g: "3⭐: Mountain Soundtrack", a: "✨ Walking Speed", l: "Gemstone Mountain" },
-            { n: "Retsuko", g: "3⭐: Volcanic Soundtrack", a: "✨ Mining/Rock Breaking", l: "Mount Hothead" },
-            { n: "Hangyodon", g: "3⭐: Sayuri (Fish)", a: "✨ Rare Item Luck", l: "Comedy Club" },
-            { n: "Tuxedosam", g: "3⭐: Designer Island Doll", a: "✨ Shop Rewards Boost", l: "Clothing Shop" },
-            { n: "Wish me Mell", g: "3⭐: Toasted Marshmallow", a: "✨ Gardening Helper", l: "Merry Meadow", d: "DLC" },
-            { n: "Pochacco", g: "3⭐: Pochacco Energy Pop", a: "✨ Stamina Boost", l: "Seaside Resort" }
+            { n: "Hello Kitty", g: "3⭐: Red Bow Apple Pie", a: "✨ Cooking & Friendship Boost", l: "Resort Plaza" },
+            { n: "My Melody", g: "3⭐: Pink Cloud Confection", a: "✨ Extra Crafting Rewards", l: "Resort Shop" },
+            { n: "Cinnamoroll", g: "3⭐: Chocolate Chai", a: "✨ Fast Travel Access", l: "Everywhere" }
+            // More will be added from your Excel!
         ],
-        crafting: [
-            { n: "Mama's Apple Pie", i: "Flour + Apple + Cinnamon", s: "Oven" },
-            { n: "Ultimate Joke Pizza", i: "Dough + Pineapple + Tofu", s: "Pizza Oven" },
-            { n: "Pink Latte", i: "Candlenut + Strawberry", s: "Espresso Machine" },
-            { n: "Chocolate Chai", i: "Candlenut + Choco Coin + Cinnamon", s: "Espresso Machine" },
-            { n: "Pumpkin Spice Soda", i: "Fizzy Crystal + Pumpkin + Cinnamon", s: "Soda Machine" },
-            { n: "Bejeweled Avocado", i: "Avocado + Star Fruit", s: "Dessert Maker" },
-            { n: "Pudding", i: "Coral Milk + Cactus Cream", s: "Dessert Maker" },
-            { n: "Strawberry Shortcake", i: "Flour + Strawberry", s: "Oven" },
-            { n: "Veggie Pizza", i: "Dough + Pumpkin", s: "Pizza Oven" }
+        kitchen: [
+            { n: "Red Bow Apple Pie", i: "Apple + Flour + Magma Bloom", s: "Oven" },
+            { n: "Chocolate Chai", i: "Candlenut + Chocolate Coin + Cinnamon", s: "Espresso Machine" }
+        ],
+        craftables: [
+            { n: "Critter Totem", i: "Sturdy Wood + Mechanism", s: "Crafting Table" }
         ],
         materials: [
             { n: "Dough", i: "Flour + Candy Cloud", s: "Crafting Table" },
-            { n: "Mechanism", i: "3x Spare Parts", s: "Crafting Table" },
-            { n: "Invention Chip", i: "Mechanism + Glitch", s: "Chococat's Table" },
-            { n: "Iron Ingot", i: "3x Iron Ore", s: "Crafting Table" },
-            { n: "Sparkle", i: "3x Light Stone", s: "Crafting Table" },
-            { n: "Fabric", i: "3x Cotton", s: "Crafting Table" },
-            { n: "Dye Pouch", i: "Trash (Recycler)", s: "Recycling Plant" }
+            { n: "Mechanism", i: "3x Spare Parts", s: "Crafting Table" }
         ],
         nature: [
-            { n: "Tiny Glowfish", l: "Spooky Swamp (Night)", u: "Fish" },
-            { n: "Diamondhead", l: "Oasis (Day)", u: "Fish" },
-            { n: "Rainbow Ribbitter", l: "Resort Ponds", u: "Fish" },
-            { n: "Bush Cricket", l: "Spooky Swamp", u: "Critter" },
-            { n: "Sailing Charmfish", l: "Deep Sea", u: "Fish" },
-            { n: "Sunset Guppy", l: "Resort (Evening)", u: "Fish" }
+            { n: "Tiny Glowfish", l: "Spooky Swamp (Night)", u: "Fish" }
         ],
         visitors: [
-            { n: "Dear Daniel", r: "3 Furniture Items", c: "Resort" },
-            { n: "Mimmy", r: "5 Hello Kitty Items", c: "Resort" },
-            { n: "Baku", r: "Spooky + Fall Items", c: "Spooky Swamp" },
-            { n: "Mocha", r: "Coffee + Desserts", c: "Traveling" },
-            { n: "Moppu", r: "Blanket Fort Items", c: "City Town", d: "DLC" }
+            { n: "Dear Daniel", r: "3 Furniture Items", c: "Resort" }
         ],
         maps: [
-            { n: "Merry Meadow", l: "Spooky Swamp Portal", u: "Gardening", d: "DLC" },
-            { n: "City Town", l: "Imagination Island", u: "Moppu/Shopping", d: "DLC" },
-            { n: "Cloud Island", l: "Star Map", u: "Kiki & Lala", d: "DLC" }
+            { n: "Merry Meadow", l: "Spooky Swamp Portal", u: "Gardening", d: "DLC" }
         ]
     };
 
@@ -122,14 +85,19 @@
         btns.forEach(btn => {
             if(btn.getAttribute('onclick').includes(id)) btn.classList.add('active');
         });
-        document.getElementById('masterSearch').style.display = (id === 'suggest') ? 'none' : 'block';
         render();
+    }
+
+    function goToRecipe(name) {
+        document.getElementById('masterSearch').value = name;
+        // Search across kitchen and craftables
+        const isKitchen = db.kitchen.some(item => item.n.toLowerCase() === name.toLowerCase());
+        showTab(isKitchen ? 'kitchen' : 'craftables');
     }
 
     function render() {
         const query = document.getElementById('masterSearch').value.toLowerCase();
         const activeView = document.querySelector('.view.active').id;
-        if(activeView === 'suggest') return;
         const container = document.getElementById(activeView);
         container.innerHTML = "";
 
@@ -141,9 +109,12 @@
                 html += `<strong>${item.n}</strong><br>`;
                 
                 if(activeView === 'friends') {
-                    html += `📍 ${item.l} <br> <span class="tag">🎁 ${item.g}</span>`;
+                    const giftName = item.g.includes(': ') ? item.g.split(': ')[1] : item.g;
+                    html += `📍 ${item.l} <br> 
+                             <span class="tag" style="cursor:pointer; border:1px solid var(--pink)" 
+                                   onclick="goToRecipe('${giftName}')">🎁 ${item.g} 🔍</span>`;
                     html += `<span class="tag" style="background:var(--purple)">💪 ${item.a}</span>`;
-                } else if(activeView === 'crafting' || activeView === 'materials') {
+                } else if(['kitchen', 'craftables', 'materials'].includes(activeView)) {
                     html += `🛠️ Ingredients: ${item.i} <br> <span class="tag">Station: ${item.s}</span>`;
                 } else if(activeView === 'nature') {
                     html += `📍 Location: ${item.l} <br> <span class="tag">Type: ${item.u}</span>`;
